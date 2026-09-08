@@ -1,0 +1,18 @@
+{
+  "name": "browser-remote-file-gateway",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/controller.mjs",
+    "./service-worker-handler": "./src/service-worker-handler.js",
+    "./service-worker": "./src/service-worker.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  }
+}
