@@ -84,6 +84,9 @@ const server = createServer(async (request, response) => {
       response.setHeader('Cache-Control', 'no-store')
       response.setHeader('Content-Type', contentType(file))
       response.setHeader('Content-Length', bytes.byteLength)
+      if (url.pathname === '/remote-file-gateway/service-worker.js') {
+        response.setHeader('Service-Worker-Allowed', '/')
+      }
       response.writeHead(200).end(bytes)
       return
     }
