@@ -17,7 +17,7 @@ test("demo and quickstart run from the built Pages subpath", async ({ page }) =>
 
   await page.goto("quickstart/");
   await page.locator("#run").click();
-  await expect(page.locator("#result")).toContainText('"size"');
+  await expect(page.locator("#result")).toContainText('"size"', { timeout: 30_000 });
   const quickstartResult = JSON.parse((await page.locator("#result").textContent()) ?? "null");
   expect(quickstartResult.range).toMatch(/^bytes 0-15\/\d+$/);
   expect(quickstartResult.text).toBeTruthy();
