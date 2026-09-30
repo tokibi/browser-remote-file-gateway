@@ -39,7 +39,8 @@ async function runQuickstart(): Promise<string> {
   }
 }
 
-document.querySelector<HTMLButtonElement>("#run")!.onclick = async () => {
+const run = document.querySelector<HTMLButtonElement>("#run")!;
+run.onclick = async () => {
   const result = document.querySelector<HTMLElement>("#result")!;
   try {
     result.textContent = await runQuickstart();
@@ -47,3 +48,4 @@ document.querySelector<HTMLButtonElement>("#run")!.onclick = async () => {
     result.textContent = `Error: ${error instanceof Error ? error.message : String(error)}`;
   }
 };
+run.disabled = false;
