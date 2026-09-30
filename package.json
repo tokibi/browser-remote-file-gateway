@@ -4,15 +4,48 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/controller.mjs",
-    "./service-worker-handler": "./src/service-worker-handler.js",
-    "./service-worker": "./src/service-worker.js"
+    ".": {
+      "types": "./dist/controller.d.ts",
+      "import": "./dist/controller.mjs"
+    },
+    "./service-worker-handler": {
+      "types": "./dist/service-worker-handler.d.ts",
+      "import": "./dist/service-worker-handler.js"
+    },
+    "./service-worker": "./dist/service-worker.js"
   },
   "scripts": {
-    "test": "node --test test/*.test.mjs",
-    "test:browser": "playwright test"
+    "prepare": "node scripts/setup-hooks.mjs",
+    "build": "vite build && tsc -p tsconfig.lib.json && tsc -p tsconfig.handler.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:browser": "playwright test",
+    "test:e2e": "playwright test test/browser/pages.spec.ts",
+    "lint": "oxlint src demo examples scripts test vite.config.ts vite.demo.config.ts vitest.config.ts playwright.config.ts",
+    "fmt": "oxfmt src demo examples scripts test vite.config.ts vite.demo.config.ts vitest.config.ts playwright.config.ts package.json tsconfig.json tsconfig.lib.json tsconfig.handler.json oxlint.json .fallowrc.json .pre-commit-config.yaml",
+    "fmt:check": "oxfmt --check src demo examples scripts test vite.config.ts vite.demo.config.ts vitest.config.ts playwright.config.ts package.json tsconfig.json tsconfig.lib.json tsconfig.handler.json oxlint.json .fallowrc.json .pre-commit-config.yaml",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm lint && pnpm fmt:check && pnpm typecheck && pnpm test",
+    "fallow:audit": "fallow audit --base origin/main",
+    "fallow:precommit": "fallow audit",
+    "build:pages": "pnpm build && node --experimental-strip-types scripts/build-pages.ts && vite build --config vite.demo.config.ts && pnpm --dir docs build",
+    "build:docs": "pnpm --dir docs build",
+    "serve:pages": "node test/server.mjs",
+    "prek:install": "node scripts/setup-hooks.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "1.62.1"
-  }
+    "@j178/prek": "0.5.3",
+    "@playwright/test": "1.62.1",
+    "@types/node": "^22.20.2",
+    "fallow": "3.30.0",
+    "oxfmt": "^0.68.0",
+    "oxlint": "^1.83.0",
+    "typescript": "^5.9.3",
+    "vite": "8.0.0",
+    "vitest": "^5.0.1"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.17.1"
 }

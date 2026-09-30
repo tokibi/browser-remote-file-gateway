@@ -1,0 +1,57 @@
+:root {
+  color-scheme: light;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  background: #f6f6f2;
+  color: #24313a;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 760px;
+  margin: 7vh auto;
+  padding: 24px;
+}
+.eyebrow {
+  color: #245778;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+}
+p {
+  line-height: 1.6;
+}
+section {
+  padding: 24px;
+  background: white;
+  border: 1px solid #d8e1e3;
+  border-radius: 12px;
+  margin: 32px 0;
+}
+button {
+  background: #145574;
+  border: 0;
+  border-radius: 6px;
+  color: white;
+  font: inherit;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+pre {
+  overflow: auto;
+  line-height: 1.5;
+  background: #edf4f5;
+  padding: 18px;
+  min-height: 4em;
+}
+a {
+  color: #145574;
+}

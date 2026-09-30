@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" role="img" aria-labelledby="title description">
+  <title id="title">Remote File Gateway の構成</title>
+  <desc id="description">ホストアプリケーションがコントローラーを設定します。HTTP 利用側は Gateway Service Worker に範囲リクエストを送り、worker はリモートプロバイダーから取得します。任意で OPFS キャッシュを利用できます。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+    </marker>
+    <style>
+      text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #172033; }
+      .title { font-size: 20px; font-weight: 700; }
+      .detail { font-size: 15px; fill: #475569; }
+      .label { font-size: 13px; font-weight: 600; fill: #475569; }
+      .box { stroke-width: 2; rx: 16; }
+      .line { fill: none; stroke: #64748b; stroke-width: 2.5; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+  <rect width="1000" height="450" rx="20" fill="#f8fafc" />
+
+  <rect class="box" x="40" y="42" width="260" height="92" fill="#eef2ff" stroke="#818cf8" />
+  <text class="title" x="62" y="78">ホストアプリケーション</text>
+  <text class="detail" x="62" y="106">バインディング・認証情報</text>
+
+  <rect class="box" x="370" y="42" width="260" height="92" fill="#eff6ff" stroke="#60a5fa" />
+  <text class="title" x="392" y="78">Gateway コントローラー</text>
+  <text class="detail" x="392" y="106">設定を公開、worker を制御</text>
+
+  <rect class="box" x="40" y="222" width="260" height="92" fill="#f0fdf4" stroke="#4ade80" />
+  <text class="title" x="62" y="258">HTTP 利用側</text>
+  <text class="detail" x="62" y="286">同一オリジンから範囲取得</text>
+
+  <rect class="box" x="370" y="194" width="260" height="148" fill="#fff7ed" stroke="#fb923c" />
+  <text class="title" x="392" y="236">Gateway Service Worker</text>
+  <text class="detail" x="392" y="266">オブジェクト解決、範囲検証</text>
+  <text class="detail" x="392" y="290">HTTP レンジを応答</text>
+
+  <rect class="box" x="700" y="194" width="260" height="92" fill="#fdf2f8" stroke="#f472b6" />
+  <text class="title" x="722" y="230">リモートプロバイダー</text>
+  <text class="detail" x="722" y="258">Google Drive / HTTP Range</text>
+
+  <rect class="box" x="700" y="336" width="260" height="76" fill="#f1f5f9" stroke="#94a3b8" />
+  <text class="title" x="722" y="369">任意の OPFS キャッシュ</text>
+  <text class="detail" x="722" y="393">サイズ上限付きの全体保存</text>
+
+  <path class="line" d="M 300 88 H 360" />
+  <text class="label" x="307" y="72">設定</text>
+  <path class="line" d="M 170 222 V 146 H 420 V 142" />
+  <text class="label" x="194" y="166">仮想 HTTP リクエスト</text>
+  <path class="line" d="M 500 142 V 184" />
+  <text class="label" x="512" y="171">制御メッセージ</text>
+  <path class="line" d="M 640 240 H 690" />
+  <text class="label" x="644" y="224">メタデータ / バイト</text>
+  <path class="line" d="M 640 304 H 680 V 374 H 690" />
+  <path class="line dashed" d="M 700 374 H 650 V 304 H 640" />
+</svg>

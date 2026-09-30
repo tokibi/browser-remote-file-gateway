@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": [
+    "demo/index.html",
+    "examples/quickstart/index.html",
+    "src/controller.ts",
+    "src/pages-service-worker.ts",
+    "src/service-worker-handler.ts",
+    "src/service-worker.ts",
+    "test/browser/public/generic.html",
+    "test/browser/public/generic-contract.mjs",
+    "test/server.mjs",
+    "test/types/provider-binding.test-d.ts"
+  ],
+  "ignoreUnresolvedImports": ["../remote-file-gateway/controller.mjs"],
+  "duplicates": {
+    "ignoredClones": [
+      "dup:c77b3abb6f87acd9-r1:2",
+      "dup:c77b3abb6f87acd9-r2:2",
+      "dup:c77b3abb6f87acd9-r3:2"
+    ]
+  },
+  "health": {
+    "thresholdOverrides": [
+      {
+        "files": ["src/controller.ts"],
+        "functions": ["<arrow>"],
+        "maxCyclomatic": 30,
+        "maxCognitive": 26,
+        "maxCrap": 225,
+        "reason": "Preserve the existing binding validation callback complexity during the TypeScript migration."
+      },
+      {
+        "files": ["src/controller.ts"],
+        "functions": ["applyPublication"],
+        "maxCyclomatic": 13,
+        "maxCognitive": 11,
+        "maxCrap": 50,
+        "reason": "Keep the current IndexedDB publication transaction ceiling while the API migration is in scope."
+      },
+      {
+        "files": ["src/controller.ts"],
+        "functions": ["#ensureHandshake"],
+        "maxCyclomatic": 11,
+        "maxCognitive": 8,
+        "maxCrap": 38,
+        "reason": "Preserve the controller handshake retry ceiling during the TypeScript migration."
+      },
+      {
+        "files": ["src/service-worker-handler.ts"],
+        "functions": ["resolveObject"],
+        "maxCyclomatic": 21,
+        "maxCognitive": 15,
+        "maxCrap": 117,
+        "reason": "Preserve the existing provider resolution ceiling during the TypeScript migration."
+      },
+      {
+        "files": ["src/service-worker-handler.ts"],
+        "functions": ["processMessage"],
+        "maxCyclomatic": 14,
+        "maxCognitive": 7,
+        "maxCrap": 57,
+        "reason": "Preserve the existing protocol dispatch ceiling during the TypeScript migration."
+      },
+      {
+        "files": ["src/service-worker-handler.ts"],
+        "functions": ["readCommittedCache"],
+        "maxCyclomatic": 13,
+        "maxCognitive": 8,
+        "maxCrap": 50,
+        "reason": "Preserve the existing cache integrity validation ceiling during the TypeScript migration."
+      }
+    ]
+  },
+  "ignoreDependencies": ["@j178/prek"]
+}

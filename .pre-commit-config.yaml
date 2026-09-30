@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      - id: oxlint
+        name: oxlint
+        entry: node --run lint
+        language: system
+        pass_filenames: false
+      - id: oxfmt-check
+        name: oxfmt check
+        entry: node --run fmt:check
+        language: system
+        pass_filenames: false
+      - id: fallow-audit
+        name: Fallow audit
+        entry: node --run fallow:precommit
+        language: system
+        pass_filenames: false

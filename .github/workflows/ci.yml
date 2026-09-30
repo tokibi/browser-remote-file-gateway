@@ -1,38 +1,51 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [main]
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
 
 permissions:
   contents: read
 
 jobs:
-  unit:
+  quality:
+    name: Quality checks and package build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.1
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: npm install
-      - run: npm test
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Fallow audit
+        if: ${{ github.event_name == 'pull_request' }}
+        run: pnpm fallow:audit
+      - run: pnpm check
+      - run: pnpm build
 
-  browser:
+  pages:
+    name: Pages build and browser integration
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium, firefox, webkit]
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.1
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: npm install
-      - run: npx playwright install --with-deps ${{ matrix.browser }}
-      - run: npm run test:browser -- --project=${{ matrix.browser }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm build:pages
+      - run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - run: pnpm test:browser
