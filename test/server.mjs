@@ -102,7 +102,7 @@ function pageHeaders(relativePath) {
   return {
     "Accept-Ranges": "bytes",
     "Cache-Control": "no-store",
-    "Content-Type": contentType(relativePath),
+    "Content-Type": contentType(indexPath(relativePath)),
     ...(relativePath === "service-worker.js" ? { "Service-Worker-Allowed": pagesPrefix } : {}),
   };
 }
