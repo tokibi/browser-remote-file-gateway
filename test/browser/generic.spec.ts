@@ -43,6 +43,9 @@ for (const [cacheName, maxFullObjectCacheBytes] of [
     page,
   }) => {
     await page.goto("remote-file-gateway/generic.html");
+    await page.waitForFunction(
+      () => typeof window.remoteFileGatewayGenericContract?.run === "function",
+    );
     const result = await page.evaluate(
       (threshold) => window.remoteFileGatewayGenericContract!.run(threshold),
       maxFullObjectCacheBytes,

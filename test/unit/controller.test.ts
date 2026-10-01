@@ -19,6 +19,82 @@ describe("RemoteFileGateway", () => {
     assert.equal(typeof RemoteFileGateway.prototype.clearCredential, "function");
   });
 
+  it("asks its active standalone worker to claim an uncontrolled page", async () => {
+    const originalNavigator = globalThis.navigator;
+    const originalLocation = globalThis.location;
+    const listeners = new Set<() => void>();
+    const messages: string[] = [];
+    const scriptURL = "https://app.example/remote-file-gateway/service-worker.js";
+    const controller = {
+      scriptURL,
+      postMessage(message: { type: string }, ports?: MessagePort[]) {
+        messages.push(message.type);
+        if (message.type === "REMOTE_FILE_GATEWAY_CLAIM_CLIENTS") {
+          serviceWorker.controller = controller;
+          for (const listener of listeners) listener();
+          return;
+        }
+        ports?.[0]?.postMessage({
+          ok: true,
+          result:
+            message.type === "REMOTE_FILE_GATEWAY_HELLO"
+              ? {
+                  protocolVersion: 1,
+                  virtualBase: "/remote-file-gateway/",
+                  capabilities: ["http-range", "bounded-opfs-cache"],
+                }
+              : {},
+        });
+      },
+    };
+    const registration = {
+      scope: "https://app.example/",
+      active: controller,
+    } as unknown as ServiceWorkerRegistration;
+    const serviceWorker = {
+      controller: null as typeof controller | null,
+      ready: Promise.resolve(registration),
+      register: async () => registration,
+      addEventListener(type: string, listener: () => void) {
+        if (type === "controllerchange") listeners.add(listener);
+      },
+      removeEventListener(type: string, listener: () => void) {
+        if (type === "controllerchange") listeners.delete(listener);
+      },
+    };
+    Object.defineProperty(globalThis, "location", {
+      configurable: true,
+      value: { origin: "https://app.example", href: "https://app.example/app" },
+    });
+    Object.defineProperty(globalThis, "navigator", {
+      configurable: true,
+      value: { serviceWorker },
+    });
+
+    try {
+      const gateway = await RemoteFileGateway.register();
+      assert.deepEqual(messages.slice(0, 2), [
+        "REMOTE_FILE_GATEWAY_CLAIM_CLIENTS",
+        "REMOTE_FILE_GATEWAY_HELLO",
+      ]);
+      await gateway.close();
+      assert.equal(listeners.size, 0);
+    } finally {
+      if (originalNavigator === undefined) delete globalThis.navigator;
+      else
+        Object.defineProperty(globalThis, "navigator", {
+          configurable: true,
+          value: originalNavigator,
+        });
+      if (originalLocation === undefined) delete globalThis.location;
+      else
+        Object.defineProperty(globalThis, "location", {
+          configurable: true,
+          value: originalLocation,
+        });
+    }
+  });
+
   it("repeats a handshake invalidated by controllerchange when the registration still controls", async () => {
     const originalNavigator = globalThis.navigator;
     const originalLocation = globalThis.location;

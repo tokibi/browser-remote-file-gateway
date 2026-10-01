@@ -745,6 +745,23 @@ function waitForController(
     }
     navigator.serviceWorker.addEventListener("controllerchange", changed);
     changed();
+    // An already active worker may leave a newly navigated page uncontrolled.
+    // Ask our standalone worker to claim it; controllerchange still verifies
+    // that the expected registration actually took control.
+    if (
+      !navigator.serviceWorker.controller &&
+      registration.scope === scopeUrl &&
+      registration.active?.scriptURL === expectedScriptUrl &&
+      location.href.startsWith(scopeUrl)
+    ) {
+      try {
+        registration.active.postMessage({ type: "REMOTE_FILE_GATEWAY_CLAIM_CLIENTS" });
+      } catch (error) {
+        clearTimeout(timeout);
+        navigator.serviceWorker.removeEventListener("controllerchange", changed);
+        reject(error);
+      }
+    }
   });
 }
 
