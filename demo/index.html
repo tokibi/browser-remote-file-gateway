@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remote File Gateway demo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">Browser Remote File Gateway</p>
+        <h1>Read a remote file through a local URL</h1>
+        <p>
+          Register the module Service Worker, publish an HTTP Range binding, then inspect its HEAD
+          and byte-range GET responses.
+        </p>
+      </header>
+      <section>
+        <button id="run" type="button">Run HEAD + Range GET</button>
+        <p id="status" role="status">Ready</p>
+        <pre id="output" aria-label="Gateway responses"></pre>
+      </section>
+      <nav>
+        <a href="../docs/">Guide</a> · <a href="../quickstart/">Minimal example</a> ·
+        <a href="https://github.com/tokibi/browser-remote-file-gateway">Source</a>
+      </nav>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

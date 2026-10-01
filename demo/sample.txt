@@ -1,0 +1,2 @@
+The Gateway turns an immutable object ID into a local HTTP URL.
+HEAD reports object metadata; Range GET fetches only the requested bytes.

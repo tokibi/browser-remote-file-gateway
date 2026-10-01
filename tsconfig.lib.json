@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noEmit": false,
+    "outDir": "dist"
+  },
+  "include": ["src/controller.ts"]
+}

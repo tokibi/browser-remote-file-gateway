@@ -1,4 +1,8 @@
 node_modules/
+dist/
+build/
+docs/.vitepress/
+docs/dist/
 playwright-report/
 test-results/
 .DS_Store

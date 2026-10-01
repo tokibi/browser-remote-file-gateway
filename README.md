@@ -52,6 +52,9 @@ const gateway = await RemoteFileGateway.register({
 })
 ```
 
+When the Service Worker script is under `/remote-file-gateway/` but controls the
+root scope, serve it with the `Service-Worker-Allowed: /` response header.
+
 Integrated mode connects to an existing module Service Worker registration. The host imports `createRemoteFileGatewayHandler()`, dispatches matching fetch and message events to it, and retains ownership of install, activation, and unrelated event handling.
 
 ```js
@@ -112,24 +115,32 @@ The default threshold is zero, so the host must opt into a product-specific boun
 
 ## Public API
 
-```js
-import {
-  RemoteFileGateway,
-  RemoteFileGatewayError,
-} from './src/controller.mjs'
+The built library exposes typed entry points at `browser-remote-file-gateway`
+and `browser-remote-file-gateway/service-worker-handler`. The standalone module
+Service Worker is available at `browser-remote-file-gateway/service-worker`.
 
-import { createRemoteFileGatewayHandler } from './src/service-worker-handler.js'
-```
+See the [English guide](https://tokibi.github.io/browser-remote-file-gateway/docs/)
+or [Japanese guide](https://tokibi.github.io/browser-remote-file-gateway/docs/ja/)
+for provider bindings, cache, HTTP behavior, and API details. The
+[Gateway demo](https://tokibi.github.io/browser-remote-file-gateway/demo/)
+and [quickstart](https://tokibi.github.io/browser-remote-file-gateway/quickstart/)
+run without DuckDB.
 
 ## Development
 
+Use Node.js 22 or later and pnpm 10.17.1 through Corepack. Install Playwright's
+Chromium, Firefox, and WebKit binaries before running browser checks:
+
 ```sh
-npm install
-npm test
-npm run test:browser
+corepack pnpm install --frozen-lockfile
+corepack pnpm exec playwright install chromium firefox webkit
+pnpm check
+pnpm build:pages
+pnpm test:browser
 ```
 
-CI runs the generic HTTP contract in Chromium, Firefox, and WebKit without DuckDB.
+Install sets up prek for lint, formatting, and Fallow at commit time. CI runs the
+built Gateway HTTP contract in Chromium, Firefox, and WebKit.
 
 ## Status
 

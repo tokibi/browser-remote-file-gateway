@@ -1,0 +1,13 @@
+{
+  "name": "browser-remote-file-gateway-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@ox-content/vite-plugin": "3.2.7",
+    "vite": "8.0.0"
+  }
+}
